@@ -1,6 +1,14 @@
 from flask import Flask, render_template, request, send_file
 import pandas as pd
 import os
+import joblib
+
+model = joblib.load("log_model.pkl")
+label_map = {
+    0: "Claim Under Process",
+    1: "Patient Letter / Rebill to Secondary",
+    2: "paid"
+}
 
 app = Flask(__name__)
 
@@ -73,5 +81,32 @@ def truth_file():
 def download():
     return send_file(FILE_PATH, as_attachment=True)
 
+@app.route("/predict", methods=["POST"])
+def predict():
+    allowed_amount = float(request.form["allowed_amount"])
+    # annual_benefit_maximum = float(request.form["annual_benefit_maximum"])
+    prior_used_amount = float(request.form["prior_used_amount"])
+    # remaining_benefit_before_claim = float(request.form["remaining_benefit_before_claim"])
+    # claim_status_enc = int(request.form["claim_status_enc"])
+
+
+    input_df = pd.DataFrame([{
+        "Allowed Amount": allowed_amount,
+        # "Annual Benefit Maximum": annual_benefit_maximum,
+        "Prior Used Amount": prior_used_amount,
+        # "Remaining Benefit Before Claim": remaining_benefit_before_claim,
+        # "Claim_Status_Enc": claim_status_enc
+    }])
+
+    prediction = model.predict(input_df)[0]
+    predicted_label = label_map[prediction]
+
+    return render_template(
+        "patient_claims.html",
+        prediction=predicted_label,
+        patient_id="",
+        patient_records=[]
+    )
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

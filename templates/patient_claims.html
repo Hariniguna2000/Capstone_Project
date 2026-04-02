@@ -37,6 +37,8 @@
             width: 300px;
             border: 1px solid #ccc;
             border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
         }
         button {
             padding: 10px 16px;
@@ -45,7 +47,7 @@
             color: white;
             border-radius: 8px;
             cursor: pointer;
-            margin-left: 10px;
+            margin-top: 10px;
         }
         .table-wrap {
             background: white;
@@ -69,6 +71,13 @@
             background: #1565c0;
             color: white;
         }
+        .prediction-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -82,10 +91,39 @@
     <div class="container">
         <h1>Patient Claim Information</h1>
 
+        <!-- Existing patient search form -->
         <form method="POST">
             <input type="text" name="patient_id" placeholder="Enter Patient ID" value="{{ patient_id }}">
             <button type="submit">Search</button>
         </form>
+
+        <!-- New prediction form -->
+        <form action="/predict" method="POST">
+            <h2>Predict Claim Outcome</h2>
+
+            <label>Allowed Amount:</label>
+            <input type="number" step="0.01" name="allowed_amount" required>
+
+            <!-- <label>Annual Benefit Maximum:</label>
+            <input type="number" step="0.01" name="annual_benefit_maximum" required>  -->
+
+            <label>Prior Used Amount:</label>
+            <input type="number" step="0.01" name="prior_used_amount" required>
+<!-- 
+            <label>Remaining Benefit Before Claim:</label>
+            <input type="number" step="0.01" name="remaining_benefit_before_claim" required> 
+
+            <label>Claim Status Enc:</label>
+            <input type="number" name="claim_status_enc" required>  -->
+
+            <button type="submit">Predict Claim Outcome</button>
+        </form>
+
+        {% if prediction %}
+            <div class="prediction-box">
+                Predicted Claim Outcome: {{ prediction }}
+            </div>
+        {% endif %}
 
         {% if patient_id %}
             <h3>Results for Patient ID: {{ patient_id }}</h3>
