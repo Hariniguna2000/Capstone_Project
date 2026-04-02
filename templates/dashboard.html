@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+        }
+        .navbar {
+            background: #1565c0;
+            padding: 15px 30px;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            padding: 30px;
+        }
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 220px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+        .card h3 {
+            margin: 0 0 10px 0;
+            color: #1565c0;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/patient-claims">Patient Claim Information</a>
+        <a href="/truth-file">Truth File</a>
+        <a href="/download">Download Truth File</a>
+    </div>
+
+    <div class="container">
+        <h1>Claims Dashboard</h1>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Claims</h3>
+                <p>{{ total_claims }}</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Claim Status Summary</h2>
+            <ul>
+                {% for key, value in status_counts.items() %}
+                    <li><strong>{{ key }}</strong>: {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Current Claim Outcome Summary</h2>
+            <ul>
+                {% for key, value in outcome_counts.items() %}
+                    <li><strong>{{ key }}</strong>: {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

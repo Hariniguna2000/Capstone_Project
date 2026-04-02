@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Claim Information</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+        }
+        .navbar {
+            background: #1565c0;
+            padding: 15px 30px;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            padding: 30px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 16px;
+            border: none;
+            background: #1565c0;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .table-wrap {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 1200px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        th {
+            background: #1565c0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/patient-claims">Patient Claim Information</a>
+        <a href="/truth-file">Truth File</a>
+        <a href="/download">Download Truth File</a>
+    </div>
+
+    <div class="container">
+        <h1>Patient Claim Information</h1>
+
+        <form method="POST">
+            <input type="text" name="patient_id" placeholder="Enter Patient ID" value="{{ patient_id }}">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if patient_id %}
+            <h3>Results for Patient ID: {{ patient_id }}</h3>
+        {% endif %}
+
+        <div class="table-wrap">
+            {% if patient_records %}
+                <table>
+                    <thead>
+                        <tr>
+                            {% for col in patient_records[0].keys() %}
+                                <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in patient_records %}
+                            <tr>
+                                {% for value in row.values() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% elif patient_id %}
+                <p>No claims found for this Patient ID.</p>
+            {% else %}
+                <p>Enter a Patient ID to view all claims with Date of Service from the truth file.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
