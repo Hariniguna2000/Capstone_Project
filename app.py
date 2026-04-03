@@ -3,7 +3,8 @@ import pandas as pd
 import os
 import joblib
 
-model = joblib.load("log_model.pkl")
+# model = joblib.load("log_model.pkl")
+
 label_map = {
     0: "Claim Under Process",
     1: "Patient Letter / Rebill to Secondary",
@@ -16,6 +17,8 @@ app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH = os.path.join(BASE_DIR, "data", "Truth_File.csv")
+MODEL_PATH = os.path.join(BASE_DIR, "log_model.pkl")
+model = joblib.load(MODEL_PATH)
 
 def load_data():
     df = pd.read_csv(FILE_PATH)
@@ -28,6 +31,8 @@ def load_data():
     return df
 
 @app.route("/")
+def home():
+    return render_template("home.html")
 @app.route("/dashboard")
 def dashboard():
     df = load_data()
@@ -109,4 +114,4 @@ def predict():
     )
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True,port=5001)
