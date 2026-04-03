@@ -4,155 +4,245 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Claim Information</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', Arial, sans-serif;
+        background:
+            linear-gradient(rgba(10, 25, 68, 0.75), rgba(0, 0, 0, 0.75)),
+            url("https://images.unsplash.com/photo-1588776814546-ec7e9c4bde77");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #1f2937;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .top-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    /* GLASS CARD EFFECT */
+    .card {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 24px;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        color: white;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h2 {
+        color: #00e6ff;
+    }
+
+    label {
+        color: #e0f7ff;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 10px;
+        background: rgba(255,255,255,0.9);
+    }
+
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0,230,255,0.3);
+    }
+
+    .btn {
+        background: linear-gradient(135deg, #00e6ff, #1565c0);
+        color: white;
+        border: none;
+        padding: 12px;
+        padding-top: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0,230,255,0.4);
+    }
+
+    .prediction-box {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(0,230,255,0.2);
+        border: 1px solid rgba(0,230,255,0.4);
+        color: white;
+    }
+
+    /* TABLE */
+    .table-card {
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .table-title {
+        color: #00e6ff;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    th {
+        background: rgba(21,101,192,0.9);
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+    .empty-state {
+        color: #dbeafe;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+        .top-grid {
+            grid-template-columns: 1fr;
         }
-        .navbar {
-            background: #1565c0;
-            padding: 15px 30px;
-            display: flex;
-            gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 26px;
         }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .container {
-            padding: 30px;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-        }
-        input {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: block;
-        }
-        button {
-            padding: 10px 16px;
-            border: none;
-            background: #1565c0;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .table-wrap {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            overflow-x: auto;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            min-width: 1200px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            white-space: nowrap;
-        }
-        th {
-            background: #1565c0;
-            color: white;
-        }
-        .prediction-box {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/patient-claims">Patient Claim Information</a>
-        <a href="/truth-file">Truth File</a>
-        <a href="/download">Download Truth File</a>
-    </div>
-
     <div class="container">
-        <h1>Patient Claim Information</h1>
+        <h1 class="page-title">Patient Claim Information</h1>
 
-        <!-- Existing patient search form -->
-        <form method="POST">
-            <input type="text" name="patient_id" placeholder="Enter Patient ID" value="{{ patient_id }}">
-            <button type="submit">Search</button>
-        </form>
+        <div class="top-grid">
+            <div class="card">
+                <h2>Search Patient Claims</h2>
+                <form method="POST" class="search-form">
+                    <div>
+                        <label for="patient_id">Patient ID</label>
+                        <input type="text" id="patient_id" name="patient_id" placeholder="Enter Patient ID" value="{{ patient_id }}">
+                    </div>
+                    <button type="submit" class="btn">Search Claims</button>
+                </form>
 
-        <!-- New prediction form -->
-        <form action="/predict" method="POST">
-            <h2>Predict Claim Outcome</h2>
-
-            <label>Allowed Amount:</label>
-            <input type="number" step="0.01" name="allowed_amount" required>
-
-            <!-- <label>Annual Benefit Maximum:</label>
-            <input type="number" step="0.01" name="annual_benefit_maximum" required>  -->
-
-            <label>Prior Used Amount:</label>
-            <input type="number" step="0.01" name="prior_used_amount" required>
-<!-- 
-            <label>Remaining Benefit Before Claim:</label>
-            <input type="number" step="0.01" name="remaining_benefit_before_claim" required> 
-
-            <label>Claim Status Enc:</label>
-            <input type="number" name="claim_status_enc" required>  -->
-
-            <button type="submit">Predict Claim Outcome</button>
-        </form>
-
-        {% if prediction %}
-            <div class="prediction-box">
-                Predicted Claim Outcome: {{ prediction }}
+                {% if patient_id %}
+                    <div class="result-text">
+                        Showing results for Patient ID: <strong>{{ patient_id }}</strong>
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
 
-        {% if patient_id %}
-            <h3>Results for Patient ID: {{ patient_id }}</h3>
-        {% endif %}
+            <div class="card">
+                <h2>Predict Claim Outcome</h2>
+                <form action="/predict" method="POST" class="predict-form">
+                    <div>
+                        <label for="allowed_amount">Allowed Amount</label>
+                        <input type="number" step="0.01" id="allowed_amount" name="allowed_amount" required>
+                    </div>
 
-        <div class="table-wrap">
+                    <div>
+                        <label for="prior_used_amount">Prior Used Amount</label>
+                        <input type="number" step="0.01" id="prior_used_amount" name="prior_used_amount" required>
+                    </div>
+
+                   
+
+                    <button type="submit" class="btn">Predict Claim Outcome</button>
+                </form>
+                 {% if prediction %}
+                        <div class="prediction-box">
+                            Predicted Claim Outcome: <span>{{ prediction }}</span>
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h2 class="table-title">Patient Claim Results</h2>
+
             {% if patient_records %}
-                <table>
-                    <thead>
-                        <tr>
-                            {% for col in patient_records[0].keys() %}
-                                <th>{{ col }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in patient_records %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
                             <tr>
-                                {% for value in row.values() %}
-                                    <td>{{ value }}</td>
+                                {% for col in patient_records[0].keys() %}
+                                    <th>{{ col }}</th>
                                 {% endfor %}
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for row in patient_records %}
+                                <tr>
+                                    {% for value in row.values() %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% elif patient_id %}
-                <p>No claims found for this Patient ID.</p>
+                <div class="empty-state">
+                    No claims found for this Patient ID.
+                </div>
             {% else %}
-                <p>Enter a Patient ID to view all claims with Date of Service from the truth file.</p>
+                <div class="empty-state">
+                    Enter a Patient ID above to view all claims with Date of Service from the truth file.
+                </div>
             {% endif %}
         </div>
     </div>

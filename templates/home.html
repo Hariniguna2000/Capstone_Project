@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story of Millions in Denied Claims</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d");
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            margin-left: 20px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: white;
+            color: #1565c0;
+        }
+
+        /* HERO */
+        .hero {
+            height: 65vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #00e6ff;
+            color: black;
+        }
+
+        .btn-primary:hover {
+            background: #0099cc;
+            color: white;
+        }
+
+        .btn-secondary {
+            border: 2px solid #00e6ff;
+            color: #00e6ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00e6ff;
+            color: black;
+        }
+
+        /* FEATURES */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 30px;   /* reduced top padding */
+            margin-top: -40px;
+            /* flex-wrap: wrap; */
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            width: 250px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 12px;
+            background: rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">Claim Sense</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/patient-claims">Patient Claims</a>
+            <a href="/truth-file">Truth File</a>
+            <!-- <a href="/download">Download</a> -->
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Story of Millions in Denied Claims</h1>
+        <p>
+            An AI-powered healthcare analytics system that predicts claim outcomes,
+            reduces benefit maximum denials (CO-119), and provides real-time alerts
+            for smarter financial decision-making.
+        </p>
+
+        <div class="buttons">
+            <a href="/patient-claims" class="btn btn-primary">Claim Information</a>
+            <a href="/dashboard" class="btn btn-secondary">Dashboards</a>
+            <a href="/truth-file" class="btn btn-primary"> Truth File</a>
+            <!-- <a href="/download" class="btn btn-secondary">Download File</a> -->
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features">
+        <div class="card">
+            <h3>📊 Dashboard</h3>
+            <p>Monitor claim trends, approvals, and denials.</p>
+        </div>
+
+        <div class="card">
+            <h3>🤖 AI Prediction</h3>
+            <p>Predict claim outcomes using machine learning.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚠ Alerts</h3>
+            <p>Get alerts before benefit limits are exceeded.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Story of Millions in Denied Claims | Capstone Project
+    </footer>
+
+</body>
+</html>

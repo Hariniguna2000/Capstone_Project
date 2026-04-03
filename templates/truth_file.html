@@ -4,92 +4,434 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truth File</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
+            font-family: 'Poppins', Arial, sans-serif;
+            background:
+                linear-gradient(rgba(10, 25, 68, 0.78), rgba(0, 0, 0, 0.76)),
+                url("https://images.unsplash.com/photo-1576091160550-2173dba999ef");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
         }
-        .navbar {
-            background: #1565c0;
-            padding: 15px 30px;
-            display: flex;
-            gap: 20px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
+
         .container {
-            padding: 30px;
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 24px;
         }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            margin: 0;
+            font-size: 16px;
+            color: #dbeafe;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.20);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+        }
+
+        .left-tools,
+        .right-tools {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
         .download-btn {
             display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 16px;
-            background: #1565c0;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #00c6ff, #1565c0);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.3s ease;
         }
-        .table-wrap {
-            background: white;
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.35);
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 500;
+        }
+
+        select,
+        input[type="text"] {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            min-width: 130px;
+        }
+
+        input[type="text"] {
+            min-width: 240px;
+        }
+
+        .table-card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.20);
+            border-radius: 18px;
             padding: 20px;
-            border-radius: 12px;
-            overflow-x: auto;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.22);
         }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 14px;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
-            min-width: 1400px;
+            min-width: 1200px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            padding: 12px 14px;
             text-align: left;
             white-space: nowrap;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            font-size: 14px;
         }
+
         th {
-            background: #1565c0;
+            background: rgba(21, 101, 192, 0.95);
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.10);
+        }
+
+        .pagination-bar {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .page-info {
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            border: none;
+            background: linear-gradient(135deg, #00c6ff, #1565c0);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 198, 255, 0.28);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-number {
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            font-weight: 600;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 24px;
+            color: #dbeafe;
+            font-size: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .toolbar {
+                padding: 16px;
+            }
+
+            input[type="text"] {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+
+            .toolbar,
+            .table-card {
+                padding: 14px;
+                border-radius: 14px;
+            }
+
+            .left-tools,
+            .right-tools {
+                width: 100%;
+            }
+
+            .control-group {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            select,
+            input[type="text"] {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .download-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            th, td {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            .pagination-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 22px;
+            }
+
+            .page-btn,
+            .page-number {
+                width: 100%;
+                text-align: center;
+            }
+
+            .pagination-controls {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <a href="/dashboard">Dashboard</a>
-        <a href="/patient-claims">Patient Claim Information</a>
-        <a href="/truth-file">Truth File</a>
-        <a href="/download">Download Truth File</a>
-    </div>
-
     <div class="container">
-        <h1>Truth File</h1>
-        <a class="download-btn" href="/download">Download Truth File</a>
+        <div class="page-header">
+            <h1>Truth File</h1>
+            <p>View and download the consolidated claims truth file.</p>
+        </div>
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        {% for col in columns %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in records %}
+        <div class="toolbar">
+            <div class="left-tools">
+                <a class="download-btn" href="/download">Download Truth File</a>
+            </div>
+
+            <div class="right-tools">
+                <div class="control-group">
+                    <label for="rowsPerPage">Rows per page</label>
+                    <select id="rowsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="searchInput">Search</label>
+                    <input type="text" id="searchInput" placeholder="Search any value...">
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-wrap">
+                <table id="truthTable">
+                    <thead>
                         <tr>
                             {% for col in columns %}
-                                <td>{{ row[col] }}</td>
+                                <th>{{ col }}</th>
                             {% endfor %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="tableBody">
+                        {% for row in records %}
+                            <tr>
+                                {% for col in columns %}
+                                    <td>{{ row[col] }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div id="noDataMessage" class="no-data" style="display:none;">
+                    No matching records found.
+                </div>
+            </div>
+
+            <div class="pagination-bar">
+                <div class="page-info" id="pageInfo">Showing 0 to 0 of 0 entries</div>
+                <div class="pagination-controls">
+                    <button class="page-btn" id="prevBtn">Previous</button>
+                    <div class="page-number" id="pageNumber">Page 1</div>
+                    <button class="page-btn" id="nextBtn">Next</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const tableBody = document.getElementById("tableBody");
+        const rows = Array.from(tableBody.querySelectorAll("tr"));
+        const rowsPerPageSelect = document.getElementById("rowsPerPage");
+        const searchInput = document.getElementById("searchInput");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const pageNumber = document.getElementById("pageNumber");
+        const pageInfo = document.getElementById("pageInfo");
+        const noDataMessage = document.getElementById("noDataMessage");
+
+        let currentPage = 1;
+        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        let filteredRows = [...rows];
+
+        function updateTable() {
+            rows.forEach(row => row.style.display = "none");
+
+            const totalRows = filteredRows.length;
+            const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const rowsToShow = filteredRows.slice(start, end);
+
+            rowsToShow.forEach(row => row.style.display = "");
+
+            const showingStart = totalRows === 0 ? 0 : start + 1;
+            const showingEnd = Math.min(end, totalRows);
+
+            pageInfo.textContent = `Showing ${showingStart} to ${showingEnd} of ${totalRows} entries`;
+            pageNumber.textContent = `Page ${currentPage} of ${totalPages}`;
+
+            prevBtn.disabled = currentPage === 1 || totalRows === 0;
+            nextBtn.disabled = currentPage === totalPages || totalRows === 0;
+
+            noDataMessage.style.display = totalRows === 0 ? "block" : "none";
+        }
+
+        function filterTable() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            filteredRows = rows.filter(row => {
+                const rowText = row.textContent.toLowerCase();
+                return rowText.includes(query);
+            });
+
+            currentPage = 1;
+            updateTable();
+        }
+
+        rowsPerPageSelect.addEventListener("change", function () {
+            rowsPerPage = parseInt(this.value);
+            currentPage = 1;
+            updateTable();
+        });
+
+        searchInput.addEventListener("input", filterTable);
+
+        prevBtn.addEventListener("click", function () {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+            }
+        });
+
+        nextBtn.addEventListener("click", function () {
+            const totalPages = Math.max(1, Math.ceil(filteredRows.length / rowsPerPage));
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateTable();
+            }
+        });
+
+        updateTable();
+    </script>
 </body>
 </html>
