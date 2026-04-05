@@ -203,7 +203,7 @@
 
 <div class="container">
 
-    <h1 class="page-title">Model Performance Dashboard</h1>
+    <h1 class="page-title">Model Performance and Results</h1>
 
     <div class="cards">
         <div class="card">
@@ -222,7 +222,7 @@
 
     <div class="main-layout">
         <div class="section">
-            <h2>Confusion Matrix</h2>
+            
             <img src="data:image/png;base64,{{ confusion_matrix }}" alt="Confusion Matrix" class="confusion-img">
         </div>
 
@@ -231,7 +231,7 @@
 
             <div class="info-grid">
                 <div class="info-box">
-                    <h4>Total Classes</h4>
+                    <h4>Total Predicted Classes</h4>
                     <p>{{ confusion_details|length }}</p>
                 </div>
 

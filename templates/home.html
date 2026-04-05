@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,7 @@
         body {
             height: 100vh;
             background:
-                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)),
+                linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.8)),
                 url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d");
             background-size: cover;
             background-position: center;
@@ -31,7 +32,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 50px;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .logo {
@@ -117,13 +118,14 @@
             display: flex;
             justify-content: center;
             gap: 30px;
-            padding: 20px 30px;   /* reduced top padding */
+            padding: 20px 30px;
+            /* reduced top padding */
             margin-top: -40px;
             /* flex-wrap: wrap; */
         }
 
         .card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 12px;
             width: 250px;
@@ -138,7 +140,7 @@
         footer {
             text-align: center;
             padding: 12px;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -147,15 +149,20 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <div class="logo">Claim Sense</div>
+        <!-- <h1><i class="fa-solid fa-shield-halved"></i> ClaimSense AI Dashboard</h1> -->
+
+        <div class="logo">
+             Claim Sense
+        </div>
+
         <div class="nav-links">
             <a href="/"></a>
             <a href="/dashboard">Analytics</a>
             <a href="/model-performance">Model Performance</a>
-            <a href="/patient-claims">Patient Claims</a>
+            <a href="/patient-claims">Risk Prediction</a>
             <a href="/truth-file">Truth File</a>
             <!-- <a href="/download">Download</a>  -->
-        </div> 
+        </div>
     </div>
 
     <!-- HERO -->
@@ -199,4 +206,5 @@
     </footer>
 
 </body>
+
 </html>

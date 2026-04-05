@@ -101,7 +101,8 @@
 
         .card,
         .assessment-card,
-        .table-card {
+        .table-card,
+        .history-card {
             background: var(--card);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
@@ -116,14 +117,16 @@
 
         .card:hover,
         .assessment-card:hover,
-        .table-card:hover {
+        .table-card:hover,
+        .history-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 22px 52px rgba(15, 23, 42, 0.12);
         }
 
         .card h2,
         .table-card h2,
-        .assessment-title h2 {
+        .assessment-title h2,
+        .history-card h2 {
             margin: 0 0 8px;
             font-size: 22px;
             color: #1e3a8a;
@@ -202,8 +205,7 @@
         .assessment-card {
             padding: 28px;
             margin-bottom: 24px;
-            background:
-                linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.95));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.95));
         }
 
         .assessment-top {
@@ -298,6 +300,7 @@
             background: #e5e7eb;
             position: relative;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.08);
+            animation: fadeInTrack 0.6s ease;
         }
 
         .range-low {
@@ -324,13 +327,43 @@
             content: "";
             position: absolute;
             top: -28px;
-            left: calc({{ risk_score if risk_score else 0 }}% - 10px);
+            left:
+                {% if risk_level == "Low" %}
+                    calc(16.5% - 10px)
+                {% elif risk_level == "Medium" %}
+                    calc(49.5% - 10px)
+                {% elif risk_level == "High" %}
+                    calc(82.5% - 10px)
+                {% else %}
+                    calc(0% - 10px)
+                {% endif %};
             width: 20px;
             height: 20px;
-            background: #111827;
-            border: 3px solid white;
             border-radius: 50%;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            border: 3px solid white;
+            background:
+                {% if risk_level == "Low" %}
+                    #22c55e
+                {% elif risk_level == "Medium" %}
+                    #f59e0b
+                {% elif risk_level == "High" %}
+                    #ef4444
+                {% else %}
+                    #111827
+                {% endif %};
+            box-shadow:
+                0 0 12px
+                {% if risk_level == "Low" %}
+                    rgba(34, 197, 94, 0.7)
+                {% elif risk_level == "Medium" %}
+                    rgba(245, 158, 11, 0.7)
+                {% elif risk_level == "High" %}
+                    rgba(239, 68, 68, 0.7)
+                {% else %}
+                    rgba(17, 24, 39, 0.35)
+                {% endif %};
+            transition: left 0.6s ease, background 0.3s ease, box-shadow 0.3s ease;
+            animation: pulseDot 1.6s ease-in-out infinite;
         }
 
         .range-labels {
@@ -340,6 +373,29 @@
             color: #475569;
             margin-top: 10px;
             font-weight: 600;
+        }
+
+        @keyframes fadeInTrack {
+            from {
+                opacity: 0;
+                transform: scaleX(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes pulseDot {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .detail-grid {
@@ -422,12 +478,17 @@
             color: #5b21b6;
         }
 
-        .table-card {
+        .history-card {
             padding: 24px;
+            margin-top: 24px;
         }
 
-        .table-card h2 {
-            margin-bottom: 14px;
+        .history-title {
+            margin-bottom: 16px;
+        }
+
+        .history-title h2 {
+            margin: 0;
         }
 
         .table-wrap {
@@ -471,9 +532,12 @@
 
         .empty-state {
             color: var(--muted);
-            padding: 16px 4px 6px;
+            padding: 18px;
             line-height: 1.6;
             font-size: 15px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f8fbff, #ffffff);
         }
 
         .action-bar {
@@ -560,13 +624,8 @@
 
             .card,
             .assessment-card,
-            .table-card {
+            .history-card {
                 border-radius: 18px;
-            }
-
-            .card,
-            .assessment-card,
-            .table-card {
                 padding: 18px;
             }
 
@@ -629,17 +688,18 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="page-header">
-            <h1>Patient Claim Assessment</h1>
-            <p>Search patient history and generate claim assessment with automated risk insights and next-step recommendations.</p>
+            <h1>Claim Information Portal</h1>
+            <p>Search patient history and generate claim assessment with automated risk insights and next-step
+                recommendations.</p>
         </div>
 
         <div class="top-grid">
             <div class="card">
                 <h2>Search Patient Claims</h2>
-                <p class="card-subtext">Find the full claim history for a patient from the truth file using the Patient ID.</p>
+                <p class="card-subtext">Find the full claim history for a patient from the truth file using the Patient
+                    ID.</p>
                 <form method="POST" action="/patient-claims">
                     <input type="hidden" name="form_type" value="search_patient">
                     <div class="grid">
@@ -657,25 +717,28 @@
 
             <div class="card">
                 <h2>Generate Risk Assessment</h2>
-                <p class="card-subtext">Run a model-based prediction using current claim values to estimate risk and outcome.</p>
+                <p class="card-subtext">Run a model-based prediction using current claim values to estimate risk and
+                    outcome.</p>
                 <form method="POST" action="/patient-claims">
                     <input type="hidden" name="form_type" value="predict_claim">
                     <div class="grid">
                         <div class="field">
                             <label>Patient ID</label>
-                            <input type="text" name="patient_id" placeholder="Optional Patient ID" value="{{ patient_id }}">
+                            <input type="text" name="patient_id" placeholder="Optional Patient ID">
                         </div>
                         <div class="field">
                             <label>Allowed Amount</label>
-                            <input type="number" step="0.01" name="allowed_amount" placeholder="Allowed Amount" required>
+                            <input type="number" step="0.01" name="allowed_amount" placeholder="Allowed Amount"
+                                required>
                         </div>
                         <div class="field">
                             <label>Prior Used Amount</label>
-                            <input type="number" step="0.01" name="prior_used_amount" placeholder="Prior Used Amount" required>
+                            <input type="number" step="0.01" name="prior_used_amount" placeholder="Prior Used Amount"
+                                required>
                         </div>
                         <div class="field">
                             <label>&nbsp;</label>
-                            <button type="submit">Run Risk Prediction</button>
+                            <button type="submit">Run Risk Predictor</button>
                         </div>
                     </div>
                 </form>
@@ -751,20 +814,23 @@
 
             <div class="message-grid">
                 <div class="message-box alert-box">
-                    <strong>Action Required</strong><br>
+                    <strong>Insight</strong><br>
                     {{ alert_message }}
                 </div>
 
                 <div class="message-box recommend-box">
-                    <strong>Recommendation</strong><br>
+                    <strong>⚠ Alerts and Recommendations</strong><br>
                     {{ recommendation }}
                 </div>
             </div>
         </div>
         {% endif %}
 
-        <div class="table-card">
-            <h2>Patient Claim Results</h2>
+        {% if form_type == "search_patient" %}
+        <div class="history-card">
+            <div class="history-title">
+                <h2>Patient Claim Results</h2>
+            </div>
 
             {% if patient_records %}
             <div class="table-wrap">
@@ -787,16 +853,13 @@
                     </tbody>
                 </table>
             </div>
-            {% elif patient_id %}
-            <div class="empty-state">
-                No claims found for Patient ID <strong>{{ patient_id }}</strong>.
-            </div>
             {% else %}
             <div class="empty-state">
-                Search a patient to view claim history from the truth file.
+                No patient history available.
             </div>
             {% endif %}
         </div>
+        {% endif %}
 
         <div class="action-bar">
             <a href="/" class="home-btn">
@@ -805,7 +868,6 @@
             </a>
         </div>
     </div>
-
 </body>
 
 </html>
