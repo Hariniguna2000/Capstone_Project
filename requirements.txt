@@ -73,6 +73,8 @@ scipy==1.10.1
 seaborn==0.13.2
 six==1.17.0
 soupsieve==2.7
+setuptools>=69.0.0
+wheel
 stack-data==0.6.3
 statsmodels==0.14.1
 tabulate==0.9.0
