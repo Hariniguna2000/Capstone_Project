@@ -70,11 +70,10 @@ requests==2.32.4
 s3transfer==0.11.5
 scikit-learn==1.3.2
 scipy==1.10.1
+setuptools>=69.0.0
 seaborn==0.13.2
 six==1.17.0
 soupsieve==2.7
-setuptools>=69.0.0
-wheel
 stack-data==0.6.3
 statsmodels==0.14.1
 tabulate==0.9.0
@@ -85,6 +84,7 @@ typing_extensions==4.13.2
 tzdata==2025.3
 urllib3==1.26.20
 wcwidth==0.6.0
+wheel
 webencodings==0.5.1
 websockets==13.1
 Werkzeug==3.0.6
