@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truth File</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -52,12 +54,12 @@
             gap: 16px;
             flex-wrap: wrap;
             margin-bottom: 20px;
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.20);
+            border: 1px solid rgba(255, 255, 255, 0.20);
             border-radius: 18px;
             padding: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
         }
 
         .left-tools,
@@ -107,12 +109,12 @@
         }
 
         .table-card {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.20);
+            border: 1px solid rgba(255, 255, 255, 0.20);
             border-radius: 18px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
         }
 
         .table-wrap {
@@ -124,16 +126,17 @@
             border-collapse: collapse;
             width: 100%;
             min-width: 1200px;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             overflow: hidden;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 14px;
             text-align: left;
             white-space: nowrap;
-            border-bottom: 1px solid rgba(255,255,255,0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             font-size: 14px;
         }
 
@@ -146,7 +149,7 @@
         }
 
         tbody tr:hover {
-            background: rgba(255,255,255,0.10);
+            background: rgba(255, 255, 255, 0.10);
         }
 
         .pagination-bar {
@@ -194,7 +197,7 @@
         .page-number {
             padding: 8px 14px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             color: white;
             font-weight: 600;
         }
@@ -261,9 +264,31 @@
                 text-align: center;
             }
 
-            th, td {
+            th,
+            td {
                 font-size: 13px;
                 padding: 10px 12px;
+            }
+
+            .btn {
+                display: inline-block;
+                text-align: center;
+                margin-top: 10px;
+                padding: 12px 22px;
+                background: #1565c0;
+                color: white;
+                text-decoration: none;
+                border-radius: 10px;
+                font-weight: 600;
+                transition: background 0.25s ease;
+            }
+
+            .btn:hover {
+                background: #0d47a1;
+            }
+
+            .btn-wrap {
+                text-align: center;
             }
 
             .pagination-bar {
@@ -289,6 +314,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="page-header">
@@ -300,6 +326,7 @@
             <div class="left-tools">
                 <a class="download-btn" href="/download">Download Truth File</a>
             </div>
+            
 
             <div class="right-tools">
                 <div class="control-group">
@@ -326,17 +353,17 @@
                     <thead>
                         <tr>
                             {% for col in columns %}
-                                <th>{{ col }}</th>
+                            <th>{{ col }}</th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         {% for row in records %}
-                            <tr>
-                                {% for col in columns %}
-                                    <td>{{ row[col] }}</td>
-                                {% endfor %}
-                            </tr>
+                        <tr>
+                            {% for col in columns %}
+                            <td>{{ row[col] }}</td>
+                            {% endfor %}
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -353,7 +380,9 @@
                     <button class="page-btn" id="nextBtn">Next</button>
                 </div>
             </div>
+
         </div>
+
     </div>
 
     <script>
@@ -434,4 +463,5 @@
         updateTable();
     </script>
 </body>
+
 </html>

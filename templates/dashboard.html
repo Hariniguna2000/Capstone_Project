@@ -1,88 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Claims Dashboard</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            color: #1f2937;
         }
-        .navbar {
-            background: #1565c0;
-            padding: 15px 30px;
-            display: flex;
-            gap: 20px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
+
         .container {
-            padding: 30px;
+            width: 100%;
+            padding: 20px 24px;
         }
+
+        .hero {
+            background: linear-gradient(135deg, #1565c0, #5b2dc9);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+        }
+
+        .hero p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* PERFECTLY SPREAD CARDS */
         .cards {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 18px;
         }
+
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            min-width: 220px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
         }
+
         .card h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 8px;
             color: #1565c0;
+            font-size: 14px;
         }
+
+        .card p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* MAIN GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
         .section {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            padding: 18px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
         }
-        ul {
-            padding-left: 20px;
+
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .summary-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f4f7ff;
+            border-radius: 8px;
+        }
+
+        .badge {
+            background: #1565c0;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        /* CHARTS SAME SIZE */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 16px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .chart-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 350px;
+        }
+
+        .chart-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+         .btn {
+            display: inline-block;
+            text-align: center;
+            margin-top: 10px;
+            padding: 12px 22px;
+            background: #1565c0;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: background 0.25s ease;
+        }
+
+        .btn:hover {
+            background: #0d47a1;
+        }
+        .btn-wrap {
+            text-align: center;
+        }
+
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+
+            .cards,
+            .content-grid,
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h1>Claims Dashboard</h1>
+
+        <div class="hero">
+            <h1>Claims Performance Dashboard</h1>
+            <p>Provide real-time insights into claim trends and outcomes to minimize denials and optimize revenue cycle
+                performance.</p>
+        </div>
 
         <div class="cards">
             <div class="card">
                 <h3>Total Claims</h3>
                 <p>{{ total_claims }}</p>
             </div>
+
+            <div class="card">
+                <h3>Total Status Types</h3>
+                <p>{{ status_counts|length }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Outcome Types</h3>
+                <p>{{ outcome_counts|length }}</p>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>Claim Status Summary</h2>
-            <ul>
-                {% for key, value in status_counts.items() %}
-                    <li><strong>{{ key }}</strong>: {{ value }}</li>
-                {% endfor %}
-            </ul>
+        <div class="content-grid">
+            <div class="section">
+                <ul class="summary-list">
+                    {% for key, value in status_counts.items() %}
+                    <li>
+                        <strong>{{ key }}</strong>
+                        <span class="badge">{{ value }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <ul class="summary-list">
+                    {% for key, value in outcome_counts.items() %}
+                    <li>
+                        <strong>{{ key }}</strong>
+                        <span class="badge">{{ value }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>Current Claim Outcome Summary</h2>
-            <ul>
-                {% for key, value in outcome_counts.items() %}
-                    <li><strong>{{ key }}</strong>: {{ value }}</li>
-                {% endfor %}
-            </ul>
+        <div class="chart-grid">
+            <div class="chart-card">
+                <div class="chart-box">
+                    <img src="data:image/png;base64,{{ status_pie_chart }}">
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-box">
+                    <img src="data:image/png;base64,{{ outcome_pie_chart }}">
+                </div>
+            </div>
+        </div>
+        <div class="btn-wrap">
+            <a href="/" class="btn">Back to Home</a>
         </div>
     </div>
+
 </body>
+
 </html>

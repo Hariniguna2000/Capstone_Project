@@ -1,250 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Claim Information</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Patient Claims</title>
     <style>
-    * {
-        box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    body {
-        margin: 0;
-        font-family: 'Poppins', Arial, sans-serif;
-        background:
-            linear-gradient(rgba(10, 25, 68, 0.75), rgba(0, 0, 0, 0.75)),
-            url("https://images.unsplash.com/photo-1588776814546-ec7e9c4bde77");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        color: #1f2937;
-    }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --bg: #eef4ff;
+            --bg-soft: #f8fbff;
+            --card: rgba(255, 255, 255, 0.88);
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: rgba(226, 232, 240, 0.9);
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+            --radius: 22px;
+        }
 
-    .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 24px;
-    }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 30%),
+                radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 28%),
+                linear-gradient(135deg, #eef4ff, #f7f9fc 45%, #eef2ff);
+            min-height: 100vh;
+        }
 
-    .page-title {
-        font-size: 34px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 24px;
-        text-align: center;
-    }
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 32px 24px 40px;
+        }
 
-    .top-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-        margin-bottom: 24px;
-    }
+        .page-header {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+            padding: 30px 28px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.95), rgba(124, 58, 237, 0.92));
+            color: #fff;
+            box-shadow: 0 18px 45px rgba(37, 99, 235, 0.25);
+        }
 
-    /* GLASS CARD EFFECT */
-    .card {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(12px);
-        border-radius: 18px;
-        padding: 24px;
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        color: white;
-        transition: 0.3s;
-    }
+        .page-header::before,
+        .page-header::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.10);
+        }
 
-    .card:hover {
-        transform: translateY(-5px);
-    }
+        .page-header::before {
+            width: 180px;
+            height: 180px;
+            top: -70px;
+            right: -50px;
+        }
 
-    .card h2 {
-        color: #00e6ff;
-    }
+        .page-header::after {
+            width: 120px;
+            height: 120px;
+            bottom: -40px;
+            left: -30px;
+        }
 
-    label {
-        color: #e0f7ff;
-        font-weight: 600;
-    }
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 36px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
 
-    input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        border: none;
-        margin-bottom: 10px;
-        background: rgba(255,255,255,0.9);
-    }
+        .page-header p {
+            margin: 0;
+            max-width: 760px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.92);
+            position: relative;
+            z-index: 1;
+        }
 
-    input:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(0,230,255,0.3);
-    }
-
-    .btn {
-        background: linear-gradient(135deg, #00e6ff, #1565c0);
-        color: white;
-        border: none;
-        padding: 12px;
-        padding-top: 20px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 20px rgba(0,230,255,0.4);
-    }
-
-    .prediction-box {
-        margin-top: 20px;
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(0,230,255,0.2);
-        border: 1px solid rgba(0,230,255,0.4);
-        color: white;
-    }
-
-    /* TABLE */
-    .table-card {
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(12px);
-        border-radius: 18px;
-        padding: 20px;
-        color: white;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .table-title {
-        color: #00e6ff;
-    }
-
-    .table-wrap {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 900px;
-    }
-
-    th, td {
-        padding: 12px;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-        color: white;
-    }
-
-    th {
-        background: rgba(21,101,192,0.9);
-    }
-
-    tr:hover {
-        background: rgba(255,255,255,0.1);
-    }
-
-    .empty-state {
-        color: #dbeafe;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 992px) {
         .top-grid {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
         }
-    }
 
-    @media (max-width: 768px) {
-        .page-title {
-            font-size: 26px;
+        .card,
+        .assessment-card,
+        .table-card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-    }
-</style>
+
+        .card {
+            padding: 24px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover,
+        .assessment-card:hover,
+        .table-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 52px rgba(15, 23, 42, 0.12);
+        }
+
+        .card h2,
+        .table-card h2,
+        .assessment-title h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+            color: #1e3a8a;
+        }
+
+        .card-subtext {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        input,
+        button {
+            width: 100%;
+            font-size: 14px;
+            border-radius: 14px;
+        }
+
+        input {
+            padding: 13px 14px;
+            border: 1px solid #dbe2ea;
+            background: #fff;
+            color: var(--text);
+            transition: all 0.25s ease;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+            transform: translateY(-1px);
+        }
+
+        button {
+            padding: 13px 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 6px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.20);
+            transition: all 0.25s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 25px rgba(124, 58, 237, 0.22);
+            background: linear-gradient(135deg, var(--primary-dark), #6d28d9);
+        }
+
+        .assessment-card {
+            padding: 28px;
+            margin-bottom: 24px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.95));
+        }
+
+        .assessment-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .assessment-title p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .pill {
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pill::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.9;
+        }
+
+        .pill-low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .pill-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .pill-high {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .score-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 22px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
+            border-radius: 22px;
+            padding: 22px 18px;
+            text-align: center;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.22);
+        }
+
+        .score-box .num {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-box .txt {
+            font-size: 13px;
+            margin-top: 7px;
+            color: #cbd5e1;
+            letter-spacing: 0.3px;
+        }
+
+        .range-wrap {
+            width: 100%;
+        }
+
+        .range-track {
+            height: 18px;
+            border-radius: 999px;
+            overflow: hidden;
+            display: flex;
+            background: #e5e7eb;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .range-low {
+            width: 33.33%;
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+        }
+
+        .range-medium {
+            width: 33.33%;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .range-high {
+            width: 33.33%;
+            background: linear-gradient(90deg, #ef4444, #f87171);
+        }
+
+        .range-marker {
+            position: relative;
+            height: 0;
+        }
+
+        .range-marker::after {
+            content: "";
+            position: absolute;
+            top: -28px;
+            left: calc({{ risk_score if risk_score else 0 }}% - 10px);
+            width: 20px;
+            height: 20px;
+            background: #111827;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #475569;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .detail-box,
+        .metric-box,
+        .message-box {
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .detail-box {
+            padding: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .detail-box:hover,
+        .metric-box:hover,
+        .message-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+        }
+
+        .detail-box .label,
+        .metric-box .label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail-box .value,
+        .metric-box .value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            word-break: break-word;
+        }
+
+        .ai-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .metric-box {
+            padding: 18px;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+        }
+
+        .message-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .message-box {
+            padding: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .alert-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #bfdbfe;
+            color: #1e3a8a;
+        }
+
+        .recommend-box {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            border-color: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .table-card {
+            padding: 24px;
+        }
+
+        .table-card h2 {
+            margin-bottom: 14px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 900px;
+            background: #fff;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            color: #1e3a8a;
+            position: sticky;
+            top: 0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        tbody tr:nth-child(even) td {
+            background: #fcfdff;
+        }
+
+        tr:hover td {
+            background: #f3f7ff;
+        }
+
+        .empty-state {
+            color: var(--muted);
+            padding: 16px 4px 6px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 26px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.2px;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 30px rgba(124, 58, 237, 0.28);
+            background: linear-gradient(135deg, var(--primary-dark), #6d28d9);
+        }
+
+        .home-btn:active {
+            transform: translateY(0);
+        }
+
+        .home-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        @media (max-width: 1100px) {
+            .top-grid,
+            .detail-grid,
+            .ai-metrics,
+            .message-grid,
+            .score-row {
+                grid-template-columns: 1fr;
+            }
+
+            .score-box {
+                max-width: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 18px 14px 30px;
+            }
+
+            .page-header {
+                padding: 24px 18px;
+                border-radius: 22px;
+            }
+
+            .page-header h1 {
+                font-size: 28px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card,
+            .assessment-card,
+            .table-card {
+                border-radius: 18px;
+            }
+
+            .card,
+            .assessment-card,
+            .table-card {
+                padding: 18px;
+            }
+
+            .score-box {
+                max-width: 100%;
+            }
+
+            .range-labels {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 12px 13px;
+                font-size: 13px;
+            }
+
+            .home-btn {
+                width: 100%;
+                max-width: 320px;
+                padding: 13px 18px;
+                font-size: 14px;
+            }
+
+            .home-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .assessment-top {
+                align-items: flex-start;
+            }
+
+            .pill {
+                font-size: 12px;
+                padding: 9px 14px;
+            }
+
+            .score-box .num {
+                font-size: 32px;
+            }
+
+            .detail-box .value,
+            .metric-box .value {
+                font-size: 16px;
+            }
+
+            .home-btn {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
+
     <div class="container">
-        <h1 class="page-title">Patient Claim Information</h1>
+        <div class="page-header">
+            <h1>Patient Claim Assessment</h1>
+            <p>Search patient history and generate claim assessment with automated risk insights and next-step recommendations.</p>
+        </div>
 
         <div class="top-grid">
             <div class="card">
                 <h2>Search Patient Claims</h2>
-                <form method="POST" class="search-form">
-                    <div>
-                        <label for="patient_id">Patient ID</label>
-                        <input type="text" id="patient_id" name="patient_id" placeholder="Enter Patient ID" value="{{ patient_id }}">
+                <p class="card-subtext">Find the full claim history for a patient from the truth file using the Patient ID.</p>
+                <form method="POST" action="/patient-claims">
+                    <input type="hidden" name="form_type" value="search_patient">
+                    <div class="grid">
+                        <div class="field">
+                            <label>Patient ID</label>
+                            <input type="text" name="patient_id" placeholder="Enter Patient ID" required>
+                        </div>
+                        <div class="field">
+                            <label>&nbsp;</label>
+                            <button type="submit">Search Patient</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn">Search Claims</button>
                 </form>
-
-                {% if patient_id %}
-                    <div class="result-text">
-                        Showing results for Patient ID: <strong>{{ patient_id }}</strong>
-                    </div>
-                {% endif %}
             </div>
 
             <div class="card">
-                <h2>Predict Claim Outcome</h2>
-                <form action="/predict" method="POST" class="predict-form">
-                    <div>
-                        <label for="allowed_amount">Allowed Amount</label>
-                        <input type="number" step="0.01" id="allowed_amount" name="allowed_amount" required>
-                    </div>
-
-                    <div>
-                        <label for="prior_used_amount">Prior Used Amount</label>
-                        <input type="number" step="0.01" id="prior_used_amount" name="prior_used_amount" required>
-                    </div>
-
-                   
-
-                    <button type="submit" class="btn">Predict Claim Outcome</button>
-                </form>
-                 {% if prediction %}
-                        <div class="prediction-box">
-                            Predicted Claim Outcome: <span>{{ prediction }}</span>
+                <h2>Generate Risk Assessment</h2>
+                <p class="card-subtext">Run a model-based prediction using current claim values to estimate risk and outcome.</p>
+                <form method="POST" action="/patient-claims">
+                    <input type="hidden" name="form_type" value="predict_claim">
+                    <div class="grid">
+                        <div class="field">
+                            <label>Patient ID</label>
+                            <input type="text" name="patient_id" placeholder="Optional Patient ID" value="{{ patient_id }}">
                         </div>
-                    {% endif %}
+                        <div class="field">
+                            <label>Allowed Amount</label>
+                            <input type="number" step="0.01" name="allowed_amount" placeholder="Allowed Amount" required>
+                        </div>
+                        <div class="field">
+                            <label>Prior Used Amount</label>
+                            <input type="number" step="0.01" name="prior_used_amount" placeholder="Prior Used Amount" required>
+                        </div>
+                        <div class="field">
+                            <label>&nbsp;</label>
+                            <button type="submit">Run Risk Prediction</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
+        {% if prediction %}
+        <div class="assessment-card">
+            <div class="assessment-top">
+                <div class="assessment-title">
+                    <h2>Risk Assessment Prediction</h2>
+                    <p>AI-assisted evaluation based on current claim values and model probability scoring.</p>
+                </div>
+
+                {% if risk_level == "Low" %}
+                <span class="pill pill-low">Low Risk</span>
+                {% elif risk_level == "Medium" %}
+                <span class="pill pill-medium">Medium Risk</span>
+                {% else %}
+                <span class="pill pill-high">High Risk</span>
+                {% endif %}
+            </div>
+
+            <div class="score-row">
+                <div class="score-box">
+                    <div class="num">{{ risk_score }}%</div>
+                    <div class="txt">Risk Score</div>
+                </div>
+
+                <div class="range-wrap">
+                    <div class="range-track">
+                        <div class="range-low"></div>
+                        <div class="range-medium"></div>
+                        <div class="range-high"></div>
+                    </div>
+                    <div class="range-marker"></div>
+                    <div class="range-labels">
+                        <span>Low Risk</span>
+                        <span>Medium Risk</span>
+                        <span>High Risk</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-grid">
+                <div class="detail-box">
+                    <div class="label">Predicted Outcome</div>
+                    <div class="value">{{ prediction }}</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="label">Allowed Amount</div>
+                    <div class="value">${{ assessment_data.allowed_amount }}</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="label">Prior Used Amount</div>
+                    <div class="value">${{ assessment_data.prior_used_amount }}</div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="label">Patient ID</div>
+                    <div class="value">{{ patient_id if patient_id else "N/A" }}</div>
+                </div>
+            </div>
+
+            <div class="ai-metrics">
+                <div class="metric-box">
+                    <div class="label">Confidence Score</div>
+                    <div class="value">{{ confidence_score }}%</div>
+                </div>
+            </div>
+
+            <div class="message-grid">
+                <div class="message-box alert-box">
+                    <strong>Action Required</strong><br>
+                    {{ alert_message }}
+                </div>
+
+                <div class="message-box recommend-box">
+                    <strong>Recommendation</strong><br>
+                    {{ recommendation }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="table-card">
-            <h2 class="table-title">Patient Claim Results</h2>
+            <h2>Patient Claim Results</h2>
 
             {% if patient_records %}
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                {% for col in patient_records[0].keys() %}
-                                    <th>{{ col }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in patient_records %}
-                                <tr>
-                                    {% for value in row.values() %}
-                                        <td>{{ value }}</td>
-                                    {% endfor %}
-                                </tr>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for key in patient_records[0].keys() %}
+                            <th>{{ key }}</th>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in patient_records %}
+                        <tr>
+                            {% for value in row.values() %}
+                            <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% elif patient_id %}
-                <div class="empty-state">
-                    No claims found for this Patient ID.
-                </div>
+            <div class="empty-state">
+                No claims found for Patient ID <strong>{{ patient_id }}</strong>.
+            </div>
             {% else %}
-                <div class="empty-state">
-                    Enter a Patient ID above to view all claims with Date of Service from the truth file.
-                </div>
+            <div class="empty-state">
+                Search a patient to view claim history from the truth file.
+            </div>
             {% endif %}
         </div>
+
+        <div class="action-bar">
+            <a href="/" class="home-btn">
+                <span class="home-icon">←</span>
+                <span>Back to Home</span>
+            </a>
+        </div>
     </div>
+
 </body>
+
 </html>
