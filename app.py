@@ -537,6 +537,7 @@ def dashboard():
 @app.route("/patient-claims", methods=["GET", "POST"])
 def patient_claims():
     df = load_data()
+    risk_score = 0
     form_type = ""
     patient_id = ""
     patient_records = []
@@ -554,6 +555,8 @@ def patient_claims():
 
     if request.method == "POST":
         form_type = request.form.get("form_type", "")
+    
+        risk_score = max(0, min(100, int(float(risk_score))))
 
         if form_type == "search_patient":
             patient_id = request.form.get("patient_id", "").strip()
