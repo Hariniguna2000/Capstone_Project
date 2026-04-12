@@ -1,4 +1,4 @@
-# Story_Of_MillionsIn_Denied_Claims
+Story of Millions in Denied Claims
 
 This project is built as a complete system to help manage CO-119 claim denials in a simple and efficient way. It looks at past claims data to predict whether a new claim is likely to be approved or denied, so teams can take action early.
 The system also sends real-time updates, like payment status and benefit limit warnings, to the right people. This helps avoid delays and keeps everyone informed.All the information is brought together in one place, making it easier for claims and billing teams to track everything, reduce denials, save time, and work more efficiently.The goal is to make the entire claims process smoother and less stressful for both providers and patients.
