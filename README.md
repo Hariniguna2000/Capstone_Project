@@ -14,8 +14,8 @@ Flask(Application)
 Html,css,javascript(frontend)
 
 Clone the repository:
-git clone https://github.com/Hariniguna2000/Story_Of_MillionsIn_Denied_Claims.git
-cd Story_Of_MillionsIn_Denied_Claims
+git clone https://github.com/Hariniguna2000/Capstone_Project.git
+cd Capstone_Project
 
 Install Dependencies:
 pip install -r requirements.txt
